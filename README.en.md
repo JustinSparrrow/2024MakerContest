@@ -2,7 +2,7 @@
 ---
 
 ## Works poster
-! [Poster](6001716566639_.pic_hd.jpg)
+![Poster](6001716566639_.pic_hd.jpg)
 
 ## Background of the work
 
