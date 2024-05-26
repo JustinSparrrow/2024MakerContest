@@ -76,10 +76,10 @@ bottom_right = non_zero_coords.max(axis=0)：计算非零像素区域的右下�
 ```
 保存结果
 ```python
-Image.fromarray(cropped_result_image)    # 将裁剪后的图像转换为PIL图像。
-Image.new("RGBA", pil_im.size, (0, 0, 0, 0))    # 创建一个新的透明背景图像。
-Image.open(im_path).convert("RGB")    # 打开原始图像并确保其为RGB格式。
-orig_image.crop(...)    # 裁剪原始图像中对应区域。
-no_bg_image.paste(orig_cropped_image, mask=pil_im)    # 将裁剪后的原始图像粘贴到透明背景图像上，使用去除背景后的图像作为掩码。
-no_bg_image.save("example_image_no_bg.png")    # 保存最终的去除背景后的图像。
+Image.fromarray(cropped_result_image)                   # 将裁剪后的图像转换为PIL图像。
+Image.new("RGBA", pil_im.size, (0, 0, 0, 0))            # 创建一个新的透明背景图像。
+Image.open(im_path).convert("RGB")                      # 打开原始图像并确保其为RGB格式。
+orig_image.crop(...)                                    # 裁剪原始图像中对应区域。
+no_bg_image.paste(orig_cropped_image, mask=pil_im)      # 将裁剪后的原始图像粘贴到透明背景图像上，使用去除背景后的图像作为掩码。
+no_bg_image.save("example_image_no_bg.png")             # 保存最终的去除背景后的图像。
 ```
