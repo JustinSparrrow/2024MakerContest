@@ -15,7 +15,7 @@
 ……（后续更新）
 
 #### 智能抠图
-我们使用了RMBG-1.4开源库，该库可以识别图片主体部分并进行分离。它不仅仅是扣除背景，而是将其能够识别到的第一图层抠出。
+我们使用了RMBG-1.4开源库，该库可以识别图片主体部分并进行分离。它不仅仅是扣除背景，而是将其能够识别到的第一图层抠出。  
 先下载必要的包（[网址链接](https://huggingface.co/briaai/RMBG-1.4)）：
 ```
 # Make sure you have git-lfs installed (https://git-lfs.com)
@@ -27,4 +27,20 @@ git clone https://huggingface.co/briaai/RMBG-1.4
 
 # If you want to clone without large files - just their pointers
 GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/briaai/RMBG-1.4
+```
+使用RMBG处理图片，先导入其库
+```python
+from RMBG.briarmbg import BriaRMBG
+from RMBG.utilities import preprocess_image, postprocess_image
+```
+进行模型初始化  
+- net = BriaRMBG()：实例化背景去除模型。
+- device：检测是否有可用的GPU，如果有则使用GPU，否则使用CPU。
+- BriaRMBG.from_pretrained("briaai/RMBG-1.4")：加载预训练的背景去除模型。
+- net.to(device)：将模型移动到指定的设备（GPU或CPU）上。
+```python
+net = BriaRMBG()
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+net = BriaRMBG.from_pretrained("briaai/RMBG-1.4")
+net.to(device)
 ```
