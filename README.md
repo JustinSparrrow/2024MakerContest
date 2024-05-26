@@ -44,3 +44,29 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 net = BriaRMBG.from_pretrained("briaai/RMBG-1.4")
 net.to(device)
 ```
+在RMBG中，其使用的卷积神经网络（CNN）是基于RGB图像训练的，所以它只期望图片有三个通道：R、G、B，如果通道数大于3为4（A）的话便会产生错误，所以我们需要先判断图片有多少通道，并且将其固定为三通道图片。
+```python
+# 如果图像有 alpha 通道，将其转换为 RGB
+if orig_im.shape[2] == 4:
+    orig_im = orig_im[:, :, :3]
+```
+对图像进行处理：
+```python
+orig_im_size = orig_im.shape[0:2]
+image = preprocess_image(orig_im, model_input_size).to(device)
+
+# inference 
+result = net(image)
+
+# post process
+result_image = postprocess_image(result[0][0], orig_im_size)
+```
+最后就是利用numpy对图像进行裁剪与抠出
+- np.argwhere(result_image)：找到结果图像中所有非零像素的坐标。
+- top_left = non_zero_coords.min(axis=0)：计算非零像素区域的左上角坐标。
+- bottom_right = non_zero_coords.max(axis=0)：计算非零像素区域的右下角坐标。
+```python
+np.argwhere(result_image)：找到结果图像中所有非零像素的坐标。
+top_left = non_zero_coords.min(axis=0)：计算非零像素区域的左上角坐标。
+bottom_right = non_zero_coords.max(axis=0)：计算非零像素区域的右下角坐标。
+```
