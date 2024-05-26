@@ -38,15 +38,11 @@ from RMBG.briarmbg import BriaRMBG
 from RMBG.utilities import preprocess_image, postprocess_image
 ```
 进行模型初始化  
-- net = BriaRMBG()：实例化背景去除模型。
-- device：检测是否有可用的GPU，如果有则使用GPU，否则使用CPU。
-- BriaRMBG.from_pretrained("briaai/RMBG-1.4")：加载预训练的背景去除模型。
-- net.to(device)：将模型移动到指定的设备（GPU或CPU）上。
 ```python
-net = BriaRMBG()
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-net = BriaRMBG.from_pretrained("briaai/RMBG-1.4")
-net.to(device)
+net = BriaRMBG()                                                            # 实例化背景去除模型。
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")       # 检测是否有可用的GPU，如果有则使用GPU，否则使用CPU。
+net = BriaRMBG.from_pretrained("briaai/RMBG-1.4")                           # 加载预训练的背景去除模型。
+net.to(device)                                                              # 将模型移动到指定的设备（GPU或CPU）上。
 ```
 在RMBG中，其使用的卷积神经网络（CNN）是基于RGB图像训练的，所以它只期望图片有三个通道：R、G、B，如果通道数大于3为4（A）的话便会产生错误，所以我们需要先判断图片有多少通道，并且将其固定为三通道图片。
 ```python
@@ -66,13 +62,10 @@ result = net(image)
 result_image = postprocess_image(result[0][0], orig_im_size)
 ```
 最后就是利用numpy对图像进行裁剪与抠出
-- np.argwhere(result_image)：找到结果图像中所有非零像素的坐标。
-- top_left = non_zero_coords.min(axis=0)：计算非零像素区域的左上角坐标。
-- bottom_right = non_zero_coords.max(axis=0)：计算非零像素区域的右下角坐标。
 ```python
-np.argwhere(result_image)：找到结果图像中所有非零像素的坐标。
-top_left = non_zero_coords.min(axis=0)：计算非零像素区域的左上角坐标。
-bottom_right = non_zero_coords.max(axis=0)：计算非零像素区域的右下角坐标。
+np.argwhere(result_image)                        # 找到结果图像中所有非零像素的坐标。
+top_left = non_zero_coords.min(axis=0)           # 计算非零像素区域的左上角坐标。
+bottom_right = non_zero_coords.max(axis=0)       # 计算非零像素区域的右下角坐标。
 ```
 保存结果
 ```python
