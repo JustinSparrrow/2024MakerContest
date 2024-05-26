@@ -36,7 +36,7 @@ Use RMBG to process pictures and import them first
 ```python
 from RMBG.briarmbg import BriaRMBG
 from RMBG.utilities import preprocess_image, postprocess_image
-` ` `
+```
 Initialize the model
 ```python
 net = BriaRMBG()                                                             # Instantiate the background removal model.
